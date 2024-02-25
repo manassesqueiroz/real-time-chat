@@ -1,10 +1,13 @@
 'use client'
 import { supabaseBrowser } from "@/lib/supabase/browser";
-import { Button } from "./ui/button";
-import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button";
+import useUser from "@/app/hook/useUser";
+import { SkeletonProfile } from "./squeletons/profile";
 
-export function ChatHeader({user} : {user: User | undefined }) {
+export function ChatHeader() {
+    const { data , isLoading} = useUser()
     const router = useRouter()
 
     const handleLoginWithGithub = async () => {
@@ -32,12 +35,26 @@ export function ChatHeader({user} : {user: User | undefined }) {
                         <span className="text-gray-400 text-sm">2 online</span>
                     </div>
                 </div>
-                {user ? (
-                    <Button onClick={handleLogout} variant={"destructive"}>logout</Button>
-                ): (
-                    <Button onClick={handleLoginWithGithub} variant={"default"}>Login</Button>
-                )}
-                
+                <div className="flex gap-x-2">
+
+                    {isLoading ?
+                    (
+                        <SkeletonProfile />
+                    ) : data?.id ?
+                    (
+                    <>
+                        <Avatar>
+                            <AvatarImage src={data.avatar_url || ''} />
+                            <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                        <Button onClick={handleLogout} variant={"destructive"}>logout</Button>
+                    </>
+                    ) : 
+                    (
+                        <Button onClick={handleLoginWithGithub} variant={"default"}>Login</Button>
+                    )
+                    }
+                </div>
             </div>
         </div>
     )
