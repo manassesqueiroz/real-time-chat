@@ -1,10 +1,9 @@
 'use client'
+import useUser from "@/app/hook/useUser";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
-import useUser from "@/app/hook/useUser";
 import { SkeletonProfile } from "./squeletons/profile";
+import { Button } from "./ui/button";
 
 export function ChatHeader() {
     const { data , isLoading} = useUser()
@@ -26,8 +25,8 @@ export function ChatHeader() {
         router.refresh()
     }
     return (
-        <div className="h-20">
-            <div className="flex justify-between items-center p-5 border-b">
+        <div className="w-full">
+            <div className="flex justify-between items-center p-4 border-b">
                 <div>
                     <h1 className="font-bold text-xl">Daily Chat</h1>
                     <div className="flex items-center gap-2">
@@ -43,10 +42,6 @@ export function ChatHeader() {
                     ) : data?.id ?
                     (
                     <>
-                        <Avatar>
-                            <AvatarImage src={data.avatar_url || ''} />
-                            <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
                         <Button onClick={handleLogout} variant={"destructive"}>logout</Button>
                     </>
                     ) : 
