@@ -9,23 +9,37 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      friends: {
+      messages: {
         Row: {
           created_at: string
-          id: number
-          name: string
+          id: string
+          is_edit: boolean
+          send_by: string
+          text: string
         }
         Insert: {
           created_at?: string
-          id?: number
-          name: string
+          id?: string
+          is_edit?: boolean
+          send_by?: string
+          text: string
         }
         Update: {
           created_at?: string
-          id?: number
-          name?: string
+          id?: string
+          is_edit?: boolean
+          send_by?: string
+          text?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_messages_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       profile: {
         Row: {

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/components/query-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const space_Grotesk = Space_Grotesk({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Toaster />
           </ThemeProvider>
         </QueryProvider>
       </body>

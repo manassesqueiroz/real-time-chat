@@ -1,4 +1,5 @@
 import { ChatHeader } from "@/components/ChatHeader";
+import ChatInput from "@/components/ChatInput";
 import { ChatMessage } from "@/components/ChatMessage";
 import { Input } from "@/components/ui/input";
 import { supabaseServer } from "@/lib/supabase/server";
@@ -21,9 +22,7 @@ export default async function Page() {
             })}
         </div>
       </div>
-      <div className="p-4">
-        <Input placeholder="send message"/>
-      </div>
+      <ChatInput />
     </div>
   </div>
   );
