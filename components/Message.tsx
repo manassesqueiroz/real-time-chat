@@ -1,4 +1,4 @@
-import { IMessage } from '@/lib/store/messages'
+import { IMessage, useMessage } from '@/lib/store/messages'
 import React from 'react'
 import { Avatar, AvatarImage } from './ui/avatar'
 import { AvatarFallback } from '@radix-ui/react-avatar'
@@ -27,7 +27,7 @@ export default function Message({message}: {message: IMessage}) {
                   <span className="text-base">{message.profile?.display_name}</span>
                   <span className="text-xs text-gray-400">{new Date(message.created_at).toDateString()}</span>
               </div>
-              {data?.id === message.send_by && <EditMenu />}  
+              {data?.id === message.send_by && <EditMenu message={message} />}  
             </div>
             <p className="text-sm text-gray-400">{message.text}</p>
         </div>
@@ -36,7 +36,9 @@ export default function Message({message}: {message: IMessage}) {
 }
 
 
-const EditMenu = () => {
+const EditMenu = ({ message } : { message: IMessage }) => {
+  const setActionMessage = useMessage((state)=> state.setActionMessage)
+
     return (
       <DropdownMenu >
       <DropdownMenuTrigger><MoreHorizontal /></DropdownMenuTrigger>
@@ -44,7 +46,10 @@ const EditMenu = () => {
         <DropdownMenuLabel>Action</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem>Delete</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => { 
+          document.getElementById("delete-trigger")?.click()
+          setActionMessage(message)
+        } }>Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
     )
