@@ -30,7 +30,10 @@ export default function ChatInput() {
         }
 
         const { error } = await supabase.from("messages").insert({
-            text: text,
+            id: NewMessage.id,
+            send_by: NewMessage.send_by,
+            is_edit: NewMessage.is_edit,
+            text: NewMessage.text,
         })
         if(error){
             toast.error("Something went wrong", {

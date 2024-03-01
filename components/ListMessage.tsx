@@ -2,7 +2,7 @@
 
 import { IMessage, useMessage } from "@/lib/store/messages"
 import Message from "./Message"
-import { DeleteAlert } from "./MessageActions"
+import { DeleteAlert, EditMessage } from "./MessageActions"
 
 export function ListMessages() {
     const messages = useMessage((state)=> state.messages)
@@ -17,6 +17,7 @@ export function ListMessages() {
             })}
         </div>
         <DeleteAlert />
+        <EditMessage />
       </div>
     )
 }
