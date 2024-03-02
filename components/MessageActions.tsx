@@ -34,6 +34,7 @@ export function DeleteAlert() {
     const handleDeleteMessage = async () => {
         const supabase = supabaseBrowser()
 
+        optimistcDeleteMessage(actionsMessage?.id!)
         const { error } = await supabase.from("messages")
         .delete()
         .eq("id", actionsMessage?.id!)
@@ -43,7 +44,6 @@ export function DeleteAlert() {
                 description: error.message
             })
         }else{
-            optimistcDeleteMessage(actionsMessage?.id!)
             toast.success("Message deleted")
         }
     }
@@ -84,6 +84,11 @@ export function EditMessage() {
             toast.error("Message cannot be empty")
             return
         } 
+        optimistcEditMessage({
+            ...actionsMessage!,
+            text,
+            is_edit: true
+        })
         const { error } = await supabase
         .from("messages")
         .update({
@@ -98,11 +103,6 @@ export function EditMessage() {
                 description: error.message
             })
         }else {
-            optimistcEditMessage({
-                ...actionsMessage!,
-                text,
-                is_edit: true
-            })
             toast.success("Message edited")
         }
     }

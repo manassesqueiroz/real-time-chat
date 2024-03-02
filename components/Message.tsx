@@ -16,6 +16,8 @@ import useUser from '@/app/hook/useUser'
 export default function Message({message}: {message: IMessage}) {
   const {data} = useUser()
 
+  
+
   return (
     <div className="flex gap-2" key={message.id}>
         <Avatar>
