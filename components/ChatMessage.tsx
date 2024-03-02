@@ -9,8 +9,7 @@ export default async function ChatMessage() {
     .from('messages')
     .select("*, profile(*)")
     .order('created_at')
-
-    console.log(data)
+    
   return (
     <Suspense fallback={'Loading...'}>
          <ListMessages />

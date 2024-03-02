@@ -8,13 +8,14 @@ import { IMessage, useMessage } from "@/lib/store/messages";
 
 export default function ChatInput() {
     const { data } = useUser()
-    const addMessage = useMessage((state) => state.addMessage)
     const supabase = supabaseBrowser()
+
+    const { addMessage, setOptimisticIds } = useMessage((state) => state)
 
     const handleSendMassage = async (text: string) => {
         
         if(!text) return toast.error("Message cannot be empty")
-        const NewMessage = {
+        const newMessage = {
             id: uuidv4(),
             text,
             is_edit: false,
@@ -28,20 +29,20 @@ export default function ChatInput() {
                 created_at: data?.created_at,
             },
         }
-
+        addMessage(newMessage as IMessage)
+        setOptimisticIds(newMessage.id)
+        
         const { error } = await supabase.from("messages").insert({
-            id: NewMessage.id,
-            send_by: NewMessage.send_by,
-            is_edit: NewMessage.is_edit,
-            text: NewMessage.text,
+            id: newMessage.id,
+            send_by: newMessage.send_by,
+            is_edit: newMessage.is_edit,
+            text: newMessage.text,
         })
         if(error){
             toast.error("Something went wrong", {
                 description: error.message
-            })
+            })  
         }
-
-        addMessage(NewMessage as IMessage)
     }
     return (
         <div className="p-4">
