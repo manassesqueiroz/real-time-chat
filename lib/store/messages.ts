@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { LIMIT_MESSAGE } from "../constant";
 
 export type IMessage = {
     created_at: string;
@@ -16,19 +17,33 @@ export type IMessage = {
 }
 
 interface MessageState {
+    hasMore: boolean,
+    page: number,
     messages: IMessage[],
     actionMessage: IMessage | undefined,
     optimisticIds: string[],
     addMessage: (message: IMessage) => void,
+    setMessages: (messages: IMessage[]) => void,
     setActionMessage: (message: IMessage | undefined) => void,
     optimisticDeleteMessage: (messageId: string) => void,
     optimisticEditMessage: (message: IMessage) => void,
     setOptimisticIds: (id: string) => void,
 }
 export const useMessage = create<MessageState>()((set) => ({
+    hasMore: true,
+    page: 1,
     messages: [],
     optimisticIds: [],
     actionMessage: undefined,
+    setMessages(messages) {
+        set((state) => (
+            console.table(state.messages),
+            {
+            messages: [...messages, ...state.messages],
+            hasMore: messages.length >= LIMIT_MESSAGE,
+            page: state.page + 1
+        }))
+    },
     setOptimisticIds(id: string) {
         set((state) => ({
              optimisticIds: [...state.optimisticIds, id] }))

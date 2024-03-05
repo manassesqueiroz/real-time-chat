@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import Message from "./Message"
 import { DeleteAlert, EditMessage } from "./MessageActions"
+import LoadMoreMessages from "./LoadMoreMessages"
 
 export function ListMessages() {
   const [userScrolled, setUserScrolled] = useState(false)
@@ -15,6 +16,7 @@ export function ListMessages() {
       messages,
       addMessage, 
       optimisticIds,
+      hasMore,
       optimisticDeleteMessage,
       optimisticEditMessage
     } = useMessage((state)=> state)
@@ -67,10 +69,11 @@ export function ListMessages() {
 
     useEffect(() =>{
       const scrollConteiner = scrollRef.current
-
+      console.log(scrollConteiner && !userScrolled)
       if(scrollConteiner && !userScrolled){
         scrollConteiner.scrollTop = scrollConteiner.scrollHeight
       }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[ messages ])
 
     const handleOnScroll = () => {
@@ -96,10 +99,11 @@ export function ListMessages() {
 
     return (
       <>
-        <div className="flex flex-1 flex-col p-4 overflow-y-auto scroll-smooth" 
+        <div className="flex flex-1 flex-col p-4  overflow-x-auto scroll-smooth" 
           ref={scrollRef}
           onScroll={handleOnScroll}>
             <div className="flex flex-1"></div>
+            {userScrolled && hasMore ? <LoadMoreMessages /> : null} 
             <div className="space-y-8">
                 {messages.map((message, index) => {
                   return (
