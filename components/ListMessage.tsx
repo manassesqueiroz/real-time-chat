@@ -8,6 +8,7 @@ import { toast } from "sonner"
 import Message from "./Message"
 import { DeleteAlert, EditMessage } from "./MessageActions"
 import LoadMoreMessages from "./LoadMoreMessages"
+import PresenceUser from "./PresenceUser"
 
 export function ListMessages() {
   const [userScrolled, setUserScrolled] = useState(false)
@@ -69,7 +70,6 @@ export function ListMessages() {
 
     useEffect(() =>{
       const scrollConteiner = scrollRef.current
-      console.log(scrollConteiner && !userScrolled)
       if(scrollConteiner && !userScrolled){
         scrollConteiner.scrollTop = scrollConteiner.scrollHeight
       }

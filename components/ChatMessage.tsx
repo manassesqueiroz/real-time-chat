@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import { ListMessages } from './ListMessage'
 import InitMessages from '@/lib/store/InitMessages'
 import { LIMIT_MESSAGE } from '@/lib/constant'
+import PresenceUser from './PresenceUser'
 
 export default async function ChatMessage() {
     const supabase = supabaseServer()
