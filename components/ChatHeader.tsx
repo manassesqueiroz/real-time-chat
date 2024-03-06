@@ -4,9 +4,11 @@ import { supabaseBrowser } from "@/lib/supabase/browser";
 import { useRouter } from "next/navigation";
 import { SkeletonProfile } from "./squeletons/profile";
 import { Button } from "./ui/button";
+import { useProfile } from "@/lib/store/profile";
 
 export function ChatHeader() {
     const { data , isLoading} = useUser()
+    const { presence } = useProfile((state) => state)
     const router = useRouter()
 
     const handleLoginWithGithub = async () => {
@@ -31,7 +33,7 @@ export function ChatHeader() {
                     <h1 className="font-bold text-xl">Daily Chat</h1>
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 bg-green-500 animate-pulse rounded-full"></div>
-                        <span className="text-gray-400 text-sm">2 online</span>
+                        <span className="text-gray-400 text-sm">{presence.length > 0 ? presence.length : 0} online</span>
                     </div>
                 </div>
                 <div className="flex gap-x-2">
