@@ -6,6 +6,15 @@ export type Presence = {
     presence_ref:string,
 }
 
+export type Profile = {
+    avatar_url: string | null;
+    created_at: string;
+    display_name: string | null;
+    email: string | null;
+    id: string;
+}
+
+
 interface ProfileState {
     presence: Presence[],
 }

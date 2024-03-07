@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { SkeletonProfile } from "./squeletons/profile";
 import { Button } from "./ui/button";
 import { useProfile } from "@/lib/store/profile";
+import OnProfile from "./OnProfile";
 
 export function ChatHeader() {
     const { data , isLoading} = useUser()
@@ -37,7 +38,7 @@ export function ChatHeader() {
                     </div>
                 </div>
                 <div className="flex gap-x-2">
-
+                    <OnProfile />
                     {isLoading ?
                     (
                         <SkeletonProfile />
