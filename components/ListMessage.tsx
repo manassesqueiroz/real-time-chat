@@ -5,10 +5,9 @@ import { supabaseBrowser } from "@/lib/supabase/browser"
 import { ArrowDown } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
+import LoadMoreMessages from "./LoadMoreMessages"
 import Message from "./Message"
 import { DeleteAlert, EditMessage } from "./MessageActions"
-import LoadMoreMessages from "./LoadMoreMessages"
-import PresenceUser from "./PresenceUser"
 
 export function ListMessages() {
   const [userScrolled, setUserScrolled] = useState(false)
@@ -99,11 +98,12 @@ export function ListMessages() {
 
     return (
       <>
-        <div className="flex flex-1 flex-col p-4  overflow-x-auto scroll-smooth" 
+        <div className="flex flex-1 flex-col p-4  overflow-x-auto scroll-b" 
           ref={scrollRef}
           onScroll={handleOnScroll}>
-            <div className="flex flex-1"></div>
-            {userScrolled && hasMore ? <LoadMoreMessages /> : null} 
+            <div className="flex-1 pb-5">
+                {(userScrolled && hasMore) ? <LoadMoreMessages /> : null} 
+            </div>
             <div className="space-y-8">
                 {messages.map((message, index) => {
                   return (
