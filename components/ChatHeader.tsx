@@ -1,20 +1,18 @@
-'use client'
-import useUser from "@/app/hook/useUser";
-import { supabaseBrowser } from "@/lib/supabase/browser";
-import { useRouter } from "next/navigation";
-import { SkeletonProfile } from "./squeletons/profile";
-import { Button } from "./ui/button";
+"use client"
 import { useProfile } from "@/lib/store/profile";
+import { supabaseBrowser } from "@/lib/supabase/browser";
+import { Session } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 import OnProfile from "./OnProfile";
+import { Button } from "./ui/button";
 
-export function ChatHeader() {
-    const { data , isLoading} = useUser()
+export function ChatHeader({ session }: { session: Session | null }) {
+    const supabase = supabaseBrowser()
     const { presence } = useProfile((state) => state)
     const router = useRouter()
 
     const handleLoginWithGithub = async () => {
-        const supabse = supabaseBrowser()
-        await supabse.auth.signInWithOAuth({
+        await supabase.auth.signInWithOAuth({
           provider: 'github',
           options: {
             redirectTo: location.origin + '/auth/callback'
@@ -38,20 +36,15 @@ export function ChatHeader() {
                     </div>
                 </div>
                 <div className="flex gap-x-2">
-                    <OnProfile />
-                    {isLoading ?
-                    (
-                        <SkeletonProfile />
-                    ) : data?.id ?
-                    (
-                    <>
-                        <Button onClick={handleLogout} variant={"destructive"}>logout</Button>
-                    </>
-                    ) : 
-                    (
+                    
+                    {session ? (
+                        <>
+                            <OnProfile />
+                            <Button onClick={handleLogout} variant={"destructive"}>logout</Button>
+                        </>
+                    ) : (
                         <Button onClick={handleLoginWithGithub} variant={"default"}>Login</Button>
-                    )
-                    }
+                    )}
                 </div>
             </div>
         </div>
