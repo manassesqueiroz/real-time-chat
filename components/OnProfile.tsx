@@ -21,6 +21,7 @@ export default function OnProfile() {
 
     const handleUsers = async () => {
         const allIdUsers: string[] = presence.map((user) =>  user.user_id)
+        console.log(allIdUsers)
 
         const { data, error } = await supabase
         .from('profile')
@@ -32,7 +33,6 @@ export default function OnProfile() {
         }else{
             setOnUsers(data)
         }
-       
     }
  
 
